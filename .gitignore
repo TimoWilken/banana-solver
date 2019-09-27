@@ -1,0 +1,8 @@
+# Haskell (ghc compilation) temporary files
+*.hi
+*.o
+# Compiled binary
+/bananas
+# Python temporary or build files
+.mypy_cache/
+__pycache__/

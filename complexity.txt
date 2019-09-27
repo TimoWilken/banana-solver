@@ -1,0 +1,48 @@
+usedGridWords :: #wordsUsed
+
+allGridWords :: O(showGrid) * gridSize
+             :: #wordsUsed * wordLength * gridSize^3
+             :: #wordsUsed * wordLength * #letters
+
+insertWord :: O(letters)
+           :: wordLength^2 * #wordsUsed
+
+singletonGrid :: 1
+
+letterAt :: #wordsUsed * wordLength
+         :: #letters
+
+letters :: length * O(letterAt)
+        :: wordLength^2 * #wordsUsed
+
+bbox :: gridSize
+     :: #letters
+
+showGrid :: O(letterAt) * gridSize^2
+         :: #wordsUsed * wordLength * gridSize^2
+         :: #wordsUsed * wordLength * #letters^2
+
+reachableLetters :: O(freeDirs) * len(filledPositions) + O(filledPositions)
+                 :: O(freeDirs) * gridSize^2 + gridSize^2 * O(letterAt)
+                 :: O(letterAt) * gridSize^2 + gridSize^2 * #wordsUsed * wordLength
+                 :: #wordsUsed * wordLength * gridSize^2
+                 :: #wordsUsed * wordLength * #letters
+
+allWordsValid :: wordListSize * O(allGridWords)
+              :: wordListSize * #wordsUsed * wordLength * gridSize^3
+              :: wordListSize * #wordsUsed * wordLength * #letters^3
+
+longestFormableWords :: O(sort)(wordListSize)
+                     :: wordListSize * log(wordListSize) (Wikipedia lists most sorts as O(n log n))
+
+solveGrid :: initialWordListSize * log(initialWordListSize) + O(solveGridStage)
+          :: O(solveGridStage)
+          :: #letters / wordLength * O(reachableLetters) * O(extendUsingLetter)
+          :: #letters^2 / wordLength * #wordsUsed * wordLength * O(extendUsingLetter)
+          :: #letters^2 * #wordsUsed * O(extendUsingWordAt) * O(longestFormableWords)
+          :: #letters^2 * #wordsUsed * O(extendUsingWordAt) * wordListSize * log(wordListSize)
+          :: #letters^2 * #wordsUsed * wordLength^2 * O(tryInsertWord) * wordListSize * log(wordListSize)
+          :: #letters^2 * #wordsUsed * wordLength^4 * O(letters) * O(insertWord) * wordListSize * log(wordListSize)
+          :: #letters^2 * #wordsUsed^2 * wordLength^7 * wordListSize * log(wordListSize)
+          :: #letters^3 * #wordsUsed^2 * wordLength^7 * wordListSize * log(wordListSize)
+          :: #letters^5 * wordLength^5 * wordListSize * log(wordListSize)
